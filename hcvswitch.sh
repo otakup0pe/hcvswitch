@@ -12,7 +12,7 @@ fi
 HCVSWITCH_CURRENT="${HOME}/.hcvaccount"
 
 function hcv_list {
-    grep -e '^#[^ ]' "$HCVSWITCH_CURRENT" | cut -c 2-
+    grep -e '^#[^ ]' "$HCVSWITCH_CONFIG" | cut -c 2-
 }
 
 function hcv_use {
