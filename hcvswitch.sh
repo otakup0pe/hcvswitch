@@ -24,6 +24,13 @@ function hcv_use {
     fi
     grep -A 2 -e "^#${VAULT}$" "$HCVSWITCH_CONFIG" &> "$T"
     if [ $? == 0 ] ; then
+        if [ -e "${HOME}/.vault-token" ] ; then
+            OLD_VAULT="$(head -n 1 $HCVSWITCH_CURRENT | cut -c 2-)"
+            mv "${HOME}/.vault-token" "${HOME}/.vault-token-${OLD_VAULT}"
+        fi
+        if [ -e "${HOME}/.vault-token-${VAULT}" ] ; then
+            mv "${HOME}/.vault-token-${VAULT}" "${HOME}/.vault-token"
+        fi
         mv "$T" "$HCVSWITCH_CURRENT"
         chmod 0600 "$HCVSWITCH_CURRENT"
     else
@@ -51,15 +58,15 @@ function hcv_eval {
 }
 
 if [ $# == 2 ] ; then
-    if [ $1 == "use" ] ; then
+    if [ "$1" == "use" ] ; then
         hcv_use "$2"
     else
         problems "invalid usage"
     fi
 elif [ $# == 1 ] ; then
-    if [ $1 == "eval" ] ; then
+    if [ "$1" == "eval" ] ; then
         hcv_eval
-    elif [ $1 == "list" ] ; then
+    elif [ "$1" == "list" ] ; then
         hcv_list
     else
         problems "invalid usage"
