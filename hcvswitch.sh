@@ -67,7 +67,7 @@ function hcv_eval {
         echo "export HCV_ENV=$(head -n 1 $HCVSWITCH_CURRENT | cut -f2 -d '#')"
         echo "export VAULT_ADDR=${VAULT_ADDR}" ; echo
         echo "export VAULT_SKIP_VERIFY=${VAULT_SKIP_VERIFY}"
-        echo "export VAULT_TLS_SERVER_NAME=\"${VAULT_TLS_SERVER_NAME}\""
+        echo "export VAULT_TLS_SERVER_NAME=${VAULT_TLS_SERVER_NAME}"
     else
         echo "export HCV_ENV=none"
         echo "export VAULT_ADDR=\"\""
