@@ -62,7 +62,7 @@ function hcv_eval {
         if [ ! -z "$sni" ] && [ "$sni" != "hostname" ] ; then
             VAULT_TLS_SERVER_NAME="$sni"
         else
-            VAULT_TLS_SERVER_NAME="$(echo $VAULT_ADDR | awk -F/ '{print $3}')"
+            VAULT_TLS_SERVER_NAME="$(echo $VAULT_ADDR | awk -F/ '{print $3}' | cut -f 1 -d ':')"
         fi
         echo "export HCV_ENV=$(head -n 1 $HCVSWITCH_CURRENT | cut -f2 -d '#')"
         echo "export VAULT_ADDR=${VAULT_ADDR}" ; echo
