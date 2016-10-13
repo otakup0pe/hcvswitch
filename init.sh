@@ -10,7 +10,7 @@ function hcvswitch()
             rm "${HOME}/.hcvaccount" &> /dev/null
             eval $("${HCVSWITCH_PATH}/hcvswitch.sh" eval)
         else
-            if ! grep -e "$VAULT" "${HOME}/.hcv.yml" &> /dev/null ; then
+            if ! grep -e "$VAULT" "$HCVSWITCH_CONFIG" &> /dev/null ; then
                 echo "invalid vault"
             else
                 "${HCVSWITCH_PATH}/hcvswitch.sh" use "$VAULT" && eval $("${HCVSWITCH_PATH}/hcvswitch.sh" eval)
