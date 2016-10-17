@@ -23,3 +23,8 @@ hcvlist()
 {
     "${HCVSWITCH_PATH}/hcvswitch.sh" list
 }
+
+hcvversion()
+{
+    cat "${HCVSWITCH_PATH}/version"
+}
