@@ -1,6 +1,6 @@
 # -*-Shell-script-*-
 
-function hcvswitch()
+hcvswitch()
 {
     local VAULT="$1"
     if [ -z "$VAULT" ] ; then
@@ -8,18 +8,18 @@ function hcvswitch()
     else
         if [ "$VAULT" == "none" ] ; then
             rm "${HOME}/.hcvaccount" &> /dev/null
-            eval $("${HCVSWITCH_PATH}/hcvswitch.sh" eval)
+            eval "$("${HCVSWITCH_PATH}/hcvswitch.sh" eval)"
         else
             if ! grep -e "$VAULT" "$HCVSWITCH_CONFIG" &> /dev/null ; then
                 echo "invalid vault"
             else
-                "${HCVSWITCH_PATH}/hcvswitch.sh" use "$VAULT" && eval $("${HCVSWITCH_PATH}/hcvswitch.sh" eval)
+                "${HCVSWITCH_PATH}/hcvswitch.sh" use "$VAULT" && eval "$("${HCVSWITCH_PATH}/hcvswitch.sh" eval)"
             fi
         fi
     fi
 }
 
-function hcvlist()
+hcvlist()
 {
     "${HCVSWITCH_PATH}/hcvswitch.sh" list
 }

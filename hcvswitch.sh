@@ -12,7 +12,17 @@ fi
 HCVSWITCH_CURRENT="${HOME}/.hcvaccount"
 
 function hcv_list {
-    grep -e '^#[^ ]' "$HCVSWITCH_CONFIG" | cut -c 2-
+    current=""
+    if [ -e "$HCVSWITCH_CURRENT" ] ; then
+        current="$(head -n 1 "$HCVSWITCH_CURRENT" | cut -f2 -d '#')"
+    fi
+    while read -r vault ; do
+        if [ "$vault" == "$current" ] ; then
+            echo "* ${vault}"
+        else
+            echo "  ${vault}"
+        fi
+    done < <(grep -e '^#[^ ]' "$HCVSWITCH_CONFIG" | cut -c 2-)
 }
 
 function hcv_use {
@@ -35,7 +45,11 @@ function hcv_use {
             mv "$T2" "$T"
         fi
         if [ -e "${HOME}/.vault-token" ] ; then
-            OLD_VAULT="$(head -n 1 "$HCVSWITCH_CURRENT" | cut -c 2-)"
+            if [ -e "$HCVSWITCH_CURRENT" ] ; then
+                OLD_VAULT="$(head -n 1 "$HCVSWITCH_CURRENT" | cut -c 2-)"
+            else
+                OLD_VAULT="pre-install"
+            fi
             mv "${HOME}/.vault-token" "${HOME}/.vault-token-${OLD_VAULT}"
         fi
         if [ -e "${HOME}/.vault-token-${VAULT}" ] ; then
@@ -51,20 +65,22 @@ function hcv_use {
 
 function hcv_eval {
     if [ -e "$HCVSWITCH_CURRENT" ] ; then
-        VAULT_ADDR="$(grep -e 'url' $HCVSWITCH_CURRENT | cut -f 2- -d ':' | sed -e 's! !!g; s!\"!!g')"
-        local skip="$(grep -e 'ignore_ssl' $HCVSWITCH_CURRENT | cut -f 2 -d ':' | sed -e 's! !!g; s!\"!!g' | tr '[:upper:]' '[:lower:]')"
+        local sni
+        local skip
+        VAULT_ADDR="$(grep -e 'url' "$HCVSWITCH_CURRENT" | cut -f 2- -d ':' | sed -e 's! !!g; s!\"!!g')"
+        skip="$(grep -e 'ignore_ssl' "$HCVSWITCH_CURRENT" | cut -f 2 -d ':' | sed -e 's! !!g; s!\"!!g' | tr '[:upper:]' '[:lower:]')"
         if [ "$skip" == "true" ] ; then
             VAULT_SKIP_VERIFY='1'
         else
             VAULT_SKIP_VERIFY='0'
         fi
-        local sni="$(grep -e 'sni' $HCVSWITCH_CURRENT | cut -f 2 -d ':' | sed -e 's! !!g; s!\"!!g')"
+        sni="$(grep -e 'sni' "$HCVSWITCH_CURRENT" | cut -f 2 -d ':' | sed -e 's! !!g; s!\"!!g')"
         if [ ! -z "$sni" ] && [ "$sni" != "hostname" ] ; then
             VAULT_TLS_SERVER_NAME="$sni"
         else
-            VAULT_TLS_SERVER_NAME="$(echo $VAULT_ADDR | awk -F/ '{print $3}' | cut -f 1 -d ':')"
+            VAULT_TLS_SERVER_NAME="$(echo "$VAULT_ADDR" | awk -F/ '{print $3}' | cut -f 1 -d ':')"
         fi
-        echo "export HCV_ENV=$(head -n 1 $HCVSWITCH_CURRENT | cut -f2 -d '#')"
+        echo "export HCV_ENV=$(head -n 1 "$HCVSWITCH_CURRENT" | cut -f2 -d '#')"
         echo "export VAULT_ADDR=${VAULT_ADDR}" ; echo
         echo "export VAULT_SKIP_VERIFY=${VAULT_SKIP_VERIFY}"
         echo "export VAULT_TLS_SERVER_NAME=${VAULT_TLS_SERVER_NAME}"
