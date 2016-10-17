@@ -9,7 +9,7 @@ Installation
 Clone this repository somewhere comfortable on your workstation. There are two environment variables which configure the scripts. Define these as you wish and then source the `init.sh` script in your `.profile`.
 
 * `HCVSWITCH_PATH` points to the location you cloned this repository
-* `HCVSWITCH_CONFIG` points to a yaml file containing your AWS keys
+* `HCVSWITCH_CONFIG` points to a yaml file containing your [Vault configuration](https://github.com/otakup0pe/hcvswitch#vault-configuration)
 
 #### `.profile Example`
 ```
