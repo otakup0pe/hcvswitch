@@ -3,6 +3,7 @@
 SCRIPT_DIR=$(cd "${0%/*}" && pwd)
 ROOTDIR=${SCRIPT_DIR%/*}
 
+sleep 600
 for file in init.sh hcvswitch.sh ; do
     docker run \
            -v "${ROOTDIR}/${file}:/tmp/FileToBeChecked" \
