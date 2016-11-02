@@ -3,7 +3,7 @@
 HCV Switcher
 ============
 
-These scripts provide a simple way of switching between different instances of Hashicorp Vault. Once integrated into someone's Bash dotfiles setup, it should keep some environment variables up to date. A key assumption made by this script is that the shell environment it is installed in has a function similar to `PS1_COMMAND` which runs each time the shell is generated. As the `VAULT_ADDR` is not stored in any files, this environment variable must be kept up to date.
+These scripts provide a simple way of switching between different instances of Hashicorp Vault. Once integrated into someone's Bash dotfiles setup, it should keep some environment variables up to date. A key assumption made by this script is that the shell environment it is installed in has a function similar to `PS1_COMMAND` which runs each time the shell is generated. As the `VAULT_ADDR` is not stored in asdfklasdfasdfany files, this environment variable must be kept up to date.
 
 Installation
 ------------
