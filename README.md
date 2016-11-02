@@ -54,3 +54,5 @@ Usage
 -----
 
 Once you have initialized the script in your `.profile` usage is straight forward. Simply make use of the `hcvswitch` function and reference one of the Vault instances in your YAML configuration. This will cause your current terminal context to be re-initialized. Note that other terminals will _not_ be re-initialized until the next time the `PS1_COMMAND` context is evaluated. You can also use the `hcvlist` function to display the different Vault instances.
+
+fake edits
