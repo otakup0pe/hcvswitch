@@ -6,7 +6,7 @@ hcvswitch()
     if [ -z "$VAULT" ] ; then
         echo "invalid vault"
     else
-        if [ "$VAULT" == "none" ] ; then
+        if [[ "$VAULT" == "none" ]] ; then
             rm "${HOME}/.hcvaccount" &> /dev/null
             eval "$("${HCVSWITCH_PATH}/hcvswitch.sh" eval)"
         else
