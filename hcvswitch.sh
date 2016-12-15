@@ -44,17 +44,15 @@ function hcv_use {
             head -n "$LEN" "$T" > "$T2"
             mv "$T2" "$T"
         fi
-        if [ -e "${HOME}/.vault-token" ] ; then
-            if [ -e "$HCVSWITCH_CURRENT" ] ; then
-                OLD_VAULT="$(head -n 1 "$HCVSWITCH_CURRENT" | cut -c 2-)"
-            else
-                OLD_VAULT="pre-install"
-            fi
-            mv "${HOME}/.vault-token" "${HOME}/.vault-token-${OLD_VAULT}"
+        if [ -e "${HOME}/.vault-token" ] && [ ! -L "${HOME}/.vault-token" ] ; then
+            PRE_FILE="${HOME}/.vault-token-pre-install"
+            echo "Existing token has been moved to ${PRE_FILE}"
+            mv "${HOME}/.vault-token" "$PRE_FILE"
         fi
-        if [ -e "${HOME}/.vault-token-${VAULT}" ] ; then
-            mv "${HOME}/.vault-token-${VAULT}" "${HOME}/.vault-token"
+        if [ -L "${HOME}/.vault-token" ] ; then
+            rm "${HOME}/.vault-token"
         fi
+        ln -s "${HOME}/.vault-token-${VAULT}" "${HOME}/.vault-token"
         mv "$T" "$HCVSWITCH_CURRENT"
         chmod 0600 "$HCVSWITCH_CURRENT"
     else
