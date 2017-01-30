@@ -70,22 +70,22 @@ function hcv_eval {
         if [ "$skip" == "true" ] ; then
             VAULT_SKIP_VERIFY='1'
         else
-            VAULT_SKIP_VERIFY='0'
+            echo "unset VAULT_SKIP_VERIFY"
         fi
         sni="$(grep -e 'sni' "$HCVSWITCH_CURRENT" | cut -f 2 -d ':' | sed -e 's! !!g; s!\"!!g')"
         if [ ! -z "$sni" ] && [ "$sni" != "hostname" ] ; then
-            VAULT_TLS_SERVER_NAME="$sni"
+            echo "export VAULT_TLS_SERVER_NAME=${sni}"
         else
-            VAULT_TLS_SERVER_NAME="$(echo "$VAULT_ADDR" | awk -F/ '{print $3}' | cut -f 1 -d ':')"
+            echo "unset VAULT_TLS_SERVER_NAME"
         fi
         echo "export HCV_ENV=$(head -n 1 "$HCVSWITCH_CURRENT" | cut -f2 -d '#')"
-        echo "export VAULT_ADDR=${VAULT_ADDR}" ; echo
+        echo "export VAULT_ADDR=${VAULT_ADDR}"
         echo "export VAULT_SKIP_VERIFY=${VAULT_SKIP_VERIFY}"
-        echo "export VAULT_TLS_SERVER_NAME=${VAULT_TLS_SERVER_NAME}"
     else
         echo "export HCV_ENV=none"
-        echo "export VAULT_ADDR=\"\""
-        echo "export VAULT_TLS_SERVER_NAME=\"\""
+        echo "unset VAULT_ADDR"
+        echo "unset VAULT_TLS_SERVER_NAME"
+        echo "unset VAULT_SKIP_VERIFY"
     fi
 }
 
