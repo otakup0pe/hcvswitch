@@ -69,6 +69,7 @@ function hcv_eval {
         skip="$(grep -e 'ignore_ssl' "$HCVSWITCH_CURRENT" | cut -f 2 -d ':' | sed -e 's! !!g; s!\"!!g' | tr '[:upper:]' '[:lower:]')"
         if [ "$skip" == "true" ] ; then
             VAULT_SKIP_VERIFY='1'
+            echo "export VAULT_SKIP_VERIFY=${VAULT_SKIP_VERIFY}"
         else
             echo "unset VAULT_SKIP_VERIFY"
         fi
@@ -80,7 +81,6 @@ function hcv_eval {
         fi
         echo "export HCV_ENV=$(head -n 1 "$HCVSWITCH_CURRENT" | cut -f2 -d '#')"
         echo "export VAULT_ADDR=${VAULT_ADDR}"
-        echo "export VAULT_SKIP_VERIFY=${VAULT_SKIP_VERIFY}"
     else
         echo "export HCV_ENV=none"
         echo "unset VAULT_ADDR"
