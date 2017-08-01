@@ -28,3 +28,8 @@ hcvversion()
 {
     cat "${HCVSWITCH_PATH}/version"
 }
+
+hcvauth()
+{
+    "${HCVSWITCH_PATH}/hcvswitch.sh" auth
+}

@@ -62,4 +62,4 @@ License
 
 Author
 -----
-The avakas tool was created by [Jonathan Freedman](http://jonathanfreedman.bio/).
+The hcvswitch tool was created by [Jonathan Freedman](http://jonathanfreedman.bio/).
