@@ -38,19 +38,20 @@ hcv_use() {
     grep -A "$len" -e "^#${VAULT}$" "$HCVSWITCH_CONFIG" &> "$T"
     if [ $? == 0 ] ; then
         local done=""
-        local count="$len"
+        local count="2"
         while [ -z "$done" ] ; do
             local val
             val="$(head -n "$count" "$T" | tail -n 1 | cut -c 1)"
-            if [ "$val" == "#" ] || [ -z "$val" ]; then
+            if [ "$count" -gt "$len" ] || \
+                   ([ "$val" == "#" ] || [ -z "$val" ]) ; then
                 done="oui"
             else
-                count="$((count - 1))"
+                count="$((count + 1))"
             fi
         done
         if [ ! -z "$len" ] ; then
             T2="${T}-a"
-            head -n "$len" "$T" > "$T2"
+            head -n "$((count - 1))" "$T" > "$T2"
             mv "$T2" "$T"
         fi
         if [ -e "${HOME}/.vault-token" ] && [ ! -L "${HOME}/.vault-token" ] ; then
