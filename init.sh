@@ -33,3 +33,8 @@ hcvauth()
 {
     "${HCVSWITCH_PATH}/hcvswitch.sh" auth
 }
+
+if [ -z "$HCVSWITCH_CONFIG" ] ; then
+    HCVSWITCH_CONFIG="${HOME}/.hcv.yml"
+    export HCVSWITCH_CONFIG
+fi

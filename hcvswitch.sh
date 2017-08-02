@@ -10,7 +10,7 @@ problems() {
 }
 
 if [ -z "$HCVSWITCH_CONFIG" ] ; then
-    HCVSWITCH_CONFIG="${HOME}/.hcv.yml"
+    export HCVSWITCH_CONFIG="${HOME}/.hcv.yml"
 fi
 
 hcv_list() {
