@@ -10,7 +10,7 @@ problems() {
 }
 
 if [ -z "$HCVSWITCH_CONFIG" ] ; then
-    problems "HCVSWITCH_CONFIG is not defined"
+    HCVSWITCH_CONFIG="${HOME}/.hcv.yml"
 fi
 
 hcv_list() {
