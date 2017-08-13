@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -e
+
+# These path variables are used in this script and within
+# the BATS execution context.
+SCRIPTDIR="$( cd "${0%/*}" && pwd)"
+ROOTDIR=${SCRIPTDIR%/*}
+export CIDIR="$ROOTDIR"
+BATSGIT="${ROOTDIR}/.bats-git"
+BATSBIN="${ROOTDIR}/.bats"
+
+# Ensure the BATS shell script test framework is installed.
+if [ ! -d "$BATSGIT" ] ; then
+    git clone --depth 1 https://github.com/sstephenson/bats.git "$BATSGIT"
+fi
+if [ ! -d "$BATSBIN" ] ; then
+    cd "$BATSGIT"
+    ./install.sh "$BATSBIN"
+fi
+
+"${ROOTDIR}/.bats/bin/bats" "${ROOTDIR}/tests/a_smoke.bats"

@@ -1,0 +1,7 @@
+# test suite
+
+#testone
+- id: "testone"
+  url: "https://localhost:8211/"
+- id: "testtwo"
+  url: "https://localhost:8212/"
