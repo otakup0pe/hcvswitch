@@ -74,7 +74,7 @@ hcv_use() {
 hcv_conf() {
     local KEY="$1"
     VAL=$(grep -e "$KEY" "$HCVSWITCH_CURRENT" | cut -f "2-" -d ':' | sed -e 's! !!g; s!\"!!g')
-    echo "$VAL"
+    echo "${VAL:=$HCVSWITCH_DEFAULT_USER}"
 }
 
 hcv_auth() {
