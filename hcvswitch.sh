@@ -92,9 +92,9 @@ hcv_auth() {
         if [ "$code" == "true" ] ; then
             echo "MFA Code"
             read -r code
-            vault auth -method="$method" username="$user" passcode="$code"
+            vault login -no-print -method="$method" username="$user" passcode="$code"
         else
-            vault auth -method="$method" username="$user"
+            vault login -no-print -method="$method" username="$user"
         fi
 
     fi
