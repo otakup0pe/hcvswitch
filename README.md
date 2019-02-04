@@ -75,7 +75,7 @@ There is also a simple Vault authentication helper for the LDAP and userpass bac
 License
 -----
 
-[MIT](https://github.com/otakup0pe/avakas/blob/master/LICENSE)
+[MIT](https://github.com/otakup0pe/hcvswitch/blob/master/LICENSE)
 
 Author
 -----
