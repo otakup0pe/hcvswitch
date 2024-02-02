@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/otakup0pe/hcvswitch.svg?branch=master)](https://travis-ci.org/otakup0pe/hcvswitch)![Maintenance](https://img.shields.io/maintenance/yes/2024.svg)
+![Maintenance](https://img.shields.io/maintenance/yes/2024.svg)
 
 HCV Switcher
 ============
