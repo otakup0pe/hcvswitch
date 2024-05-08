@@ -16,7 +16,7 @@ fi
 hcv_list() {
     current=""
     if [ -e "$HCVSWITCH_CURRENT" ] ; then
-        current="$(head -n 1 "$HCVSWITCH_CURRENT" | cut -f2 -d '#')"
+        current="$(hcv_conf id)"
     fi
     while read -r vault ; do
         if [ "$vault" == "$current" ] ; then
@@ -24,7 +24,7 @@ hcv_list() {
         else
             echo "  ${vault}"
         fi
-    done < <(grep -e '^#[^ ]' "$HCVSWITCH_CONFIG" | cut -c 2-)
+    done < <(grep -e 'id:' "$HCVSWITCH_CONFIG"  | cut -f 2 -d ':'| sed -e 's/"//g' -e 's/ //')
 }
 
 hcv_use() {
@@ -35,8 +35,8 @@ hcv_use() {
         T="${TMPDIR}/hcvswitch${RANDOM}"
     fi
     local len="$HCV_CONFIGS"
-    grep -A "$len" -e "^#${VAULT}$" "$HCVSWITCH_CONFIG" &> "$T"
-    if [ $? == 0 ] ; then
+
+    if grep -A "$len" -e "^# ${VAULT}$" "$HCVSWITCH_CONFIG" &> "$T"; then
         local done=""
         local count="2"
         while [ -z "$done" ] ; do
@@ -63,7 +63,7 @@ hcv_use() {
             rm "${HOME}/.vault-token"
         fi
         ln -s "${HOME}/.vault-token-${VAULT}" "${HOME}/.vault-token"
-        mv "$T" "$HCVSWITCH_CURRENT"
+        grep -e '^[^#]' "$T" > "$HCVSWITCH_CURRENT"
         chmod 0600 "$HCVSWITCH_CURRENT"
     else
         rm -f "$T"
@@ -73,7 +73,7 @@ hcv_use() {
 
 hcv_conf() {
     local KEY="$1"
-    VAL=$(grep -e "$KEY" "$HCVSWITCH_CURRENT" | cut -f "2-" -d ':' | sed -e 's! !!g; s!\"!!g')
+    VAL=$(grep -e "$KEY" "$HCVSWITCH_CURRENT" | cut -f "2-" -d ':' | sed -e 's! !!g' -e 's!"!!g')
     echo "$VAL"
 }
 
@@ -81,7 +81,7 @@ hcv_auth() {
     if [ -e "$HCVSWITCH_CURRENT" ] ; then
         local user
         local method
-        local code        
+        local code
         user="$(hcv_conf auth_user)"
         method="$(hcv_conf auth_method)"
         if [ -z "$user" ] || [ -z "$method" ] ; then
@@ -118,7 +118,7 @@ hcv_eval() {
         else
             echo "unset VAULT_TLS_SERVER_NAME"
         fi
-        echo "export HCV_ENV=$(head -n 1 "$HCVSWITCH_CURRENT" | cut -f 2 -d '#')"
+        echo "export HCV_ENV=$(hcv_conf id)"
         echo "export VAULT_ADDR=${VAULT_ADDR}"
     else
         echo "export HCV_ENV=none"
