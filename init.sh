@@ -1,4 +1,5 @@
 # -*-Shell-script-*-
+# shellcheck shell=bash
 
 hcvswitch()
 {

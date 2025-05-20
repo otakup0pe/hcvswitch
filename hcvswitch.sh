@@ -43,13 +43,13 @@ hcv_use() {
             local val
             val="$(head -n "$count" "$T" | tail -n 1 | cut -c 1)"
             if [ "$count" -gt "$len" ] || \
-                   ([ "$val" == "#" ] || [ -z "$val" ]) ; then
+                   { [ "$val" == "#" ] || [ -z "$val" ]; } ; then
                 done="oui"
             else
                 count="$((count + 1))"
             fi
         done
-        if [ ! -z "$len" ] ; then
+        if [ -n "$len" ] ; then
             T2="${T}-a"
             head -n "$((count - 1))" "$T" > "$T2"
             mv "$T2" "$T"
@@ -113,7 +113,7 @@ hcv_eval() {
             echo "unset VAULT_SKIP_VERIFY"
         fi
         sni="$(hcv_conf sni)"
-        if [ ! -z "$sni" ] && [ "$sni" != "hostname" ] ; then
+        if [ -n "$sni" ] && [ "$sni" != "hostname" ] ; then
             echo "export VAULT_TLS_SERVER_NAME=${sni}"
         else
             echo "unset VAULT_TLS_SERVER_NAME"

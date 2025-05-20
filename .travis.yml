@@ -1,4 +1,0 @@
-sudo: false
-script: make test
-services:
-- docker
